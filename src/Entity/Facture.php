@@ -14,9 +14,6 @@ class Facture
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $number = null;
-
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $sending_date = null;
 
@@ -33,18 +30,6 @@ class Facture
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getNumber(): ?int
-    {
-        return $this->number;
-    }
-
-    public function setNumber(int $number): static
-    {
-        $this->number = $number;
-
-        return $this;
     }
 
     public function getSendingDate(): ?\DateTimeInterface
