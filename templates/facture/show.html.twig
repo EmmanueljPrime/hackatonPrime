@@ -3,36 +3,47 @@
 {% block title %}Facture{% endblock %}
 
 {% block body %}
-    <h1>Facture</h1>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Détails de la Facture</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ facture.id }}</td>
-            </tr>
-            <tr>
-                <th>Number</th>
-                <td>{{ facture.number }}</td>
-            </tr>
-            <tr>
-                <th>Sending_date</th>
-                <td>{{ facture.sendingDate ? facture.sendingDate|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Status</th>
-                <td>{{ facture.status }}</td>
-            </tr>
-            <tr>
-                <th>Amount</th>
-                <td>{{ facture.amount }}</td>
-            </tr>
-        </tbody>
-    </table>
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <table class="table table-striped">
+                    <tbody>
+                    <tr>
+                        <th class="text-muted">Id</th>
+                        <td>{{ facture.id }}</td>
+                    </tr>
+                    <tr>
+                        <th class="text-muted">Date d'envoi</th>
+                        <td>{{ facture.sendingDate ? facture.sendingDate|date('Y-m-d') : 'Non spécifiée' }}</td>
+                    </tr>
+                    <tr>
+                        <th class="text-muted">Statut</th>
+                        <td>
+                            <span class="badge
+                                {% if facture.status == 'Envoyé' %}bg-primary
+                                {% elseif facture.status == 'Payé' %}bg-success
+                                {% elseif facture.status == 'Annulé' %}bg-danger
+                                {% else %}bg-secondary{% endif %}">
+                                {{ facture.status }}
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="text-muted">Montant</th>
+                        <td>{{ facture.amount|number_format(2, ',', ' ') }} €</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-    <a href="{{ path('facture_index') }}">back to list</a>
+        <div class="mt-4 d-flex justify-content-between">
+            <a href="{{ path('facture_index') }}" class="btn btn-secondary">Retour à la liste</a>
+            <a href="{{ path('facture_edit', {'id': facture.id}) }}" class="btn btn-primary">Modifier</a>
 
-    <a href="{{ path('facture_edit', {'id': facture.id}) }}">edit</a>
-
-    {{ include('facture/_delete_form.html.twig') }}
+            {{ include('facture/_delete_form.html.twig', {'class': 'd-inline'}) }}
+        </div>
+    </div>
 {% endblock %}
