@@ -20,7 +20,7 @@ class FactureRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('f')
             ->leftJoin('f.client', 'c') // Jointure avec le client
-            ->andWhere('f.number LIKE :term OR f.status LIKE :term OR c.fullname LIKE :term')
+            ->andWhere('f.status LIKE :term OR c.fullname LIKE :term')
             ->setParameter('term', '%' . $term . '%')
             ->orderBy('f.sending_date', 'DESC')
             ->getQuery()

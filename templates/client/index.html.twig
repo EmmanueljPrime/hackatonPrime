@@ -34,7 +34,7 @@
                 <tr>
                     <td>{{ client.id }}</td>
                     <td>
-                        <a href="#" class="text-decoration-none text-primary fw-bold">{{ client.fullname }}</a>
+                        <a href="{{ path('facture_index', {'q': client.fullname}) }}" class="text-decoration-none text-primary fw-bold">{{ client.fullname }}</a>
                     </td>
                     <td>{{ client.email }}</td>
                     <td>{{ client.company }}</td>
