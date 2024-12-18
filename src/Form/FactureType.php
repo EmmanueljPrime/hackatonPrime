@@ -17,6 +17,8 @@ class FactureType extends AbstractType
         $builder
             ->add('sending_date', null, [
                 'widget' => 'single_text',
+                'attr' => ['class' => 'form-control', 'placeholder' => 'Entrez la date d\'envoi'],
+                'label' => 'Date d\'envoi',
             ])
             ->add('status', ChoiceType::class, [
                 'choices' => [
@@ -24,16 +26,22 @@ class FactureType extends AbstractType
                     'Annulé' => 'Annulé',
                     'Payé' => 'Payé',
                 ],
-                'placeholder' => 'Sélectionnez un statut', // Optionnel : Texte par défaut
-                'data' => 'Envoyé', // Valeur par défaut : "Envoyé"
+                'placeholder' => 'Sélectionnez un statut',
+                'data' => 'Envoyé', // Valeur par défaut
+                'attr' => ['class' => 'form-control'],
+                'label' => 'Statut',
             ])
-            ->add('amount')
+            ->add('amount', null, [
+                'attr' => ['class' => 'form-control', 'placeholder' => 'Entrez le montant'],
+                'label' => 'Montant',
+            ])
             ->add('client', EntityType::class, [
                 'class' => Client::class,
-                'choice_label' => 'fullname', // Affiche la propriété "fullname" du client
-                'placeholder' => 'Sélectionnez un client', // Optionnel : Texte par défaut
-            ])
-        ;
+                'choice_label' => 'fullname',
+                'placeholder' => 'Sélectionnez un client',
+                'attr' => ['class' => 'form-control'],
+                'label' => 'Client',
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
