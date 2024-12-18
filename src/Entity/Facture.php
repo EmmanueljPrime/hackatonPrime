@@ -26,7 +26,8 @@ class Facture
     #[ORM\Column]
     private ?float $amount = null;
 
-    #[ORM\ManyToOne(inversedBy: 'factures')]
+    #[ORM\ManyToOne(targetEntity: Client::class, inversedBy: 'factures')]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?Client $client = null;
 
     public function getId(): ?int

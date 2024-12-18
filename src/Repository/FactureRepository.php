@@ -16,7 +16,16 @@ class FactureRepository extends ServiceEntityRepository
         parent::__construct($registry, Facture::class);
     }
 
-
+    public function findBySearchTerm(string $term): array
+    {
+        return $this->createQueryBuilder('f')
+            ->leftJoin('f.client', 'c') // Jointure avec le client
+            ->andWhere('f.number LIKE :term OR f.status LIKE :term OR c.fullname LIKE :term')
+            ->setParameter('term', '%' . $term . '%')
+            ->orderBy('f.sending_date', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
 
     //    /**
     //     * @return Facture[] Returns an array of Facture objects

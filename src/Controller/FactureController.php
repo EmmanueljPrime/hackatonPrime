@@ -15,10 +15,21 @@ use Symfony\Component\Routing\Attribute\Route;
 final class FactureController extends AbstractController
 {
     #[Route(name: 'facture_index', methods: ['GET'])]
-    public function index(FactureRepository $factureRepository): Response
+    public function index(Request $request, FactureRepository $factureRepository): Response
     {
+        // Récupérer le terme de recherche
+        $searchTerm = $request->query->get('q');
+
+        // Filtrer les factures en fonction du terme
+        if ($searchTerm) {
+            $factures = $factureRepository->findBySearchTerm($searchTerm);
+        } else {
+            $factures = $factureRepository->findAll();
+        }
+
         return $this->render('facture/index.html.twig', [
-            'factures' => $factureRepository->findAll(),
+            'factures' => $factures,
+            'searchTerm' => $searchTerm,
         ]);
     }
 

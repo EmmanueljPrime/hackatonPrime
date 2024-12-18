@@ -43,8 +43,9 @@
                     </td>
                     <td class="text-end">{{ client.totalAmount|number_format(2, ',', ' ') }} €</td>
                     <td class="text-center">
-                        <form method="post" action="{{ path('client_delete', {'id': client.id}) }}" onsubmit="return confirm('Voulez-vous vraiment supprimer ce client ?');" class="d-inline">
-                            <button class="btn btn-danger btn-sm">Supprimer</button>
+                        <form method="post" action="{{ path('client_delete', {id: client.id}) }}" onsubmit="return confirm('Voulez-vous vraiment supprimer ce client ?');" class="d-inline">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ client.id) }}">
+                            <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
                         </form>
                     </td>
                 </tr>

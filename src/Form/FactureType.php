@@ -41,6 +41,7 @@ class FactureType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Facture::class,
+
         ]);
     }
 }

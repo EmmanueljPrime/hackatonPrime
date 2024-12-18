@@ -27,7 +27,7 @@ class Client
     /**
      * @var Collection<int, Facture>
      */
-    #[ORM\OneToMany(targetEntity: Facture::class, mappedBy: 'client')]
+    #[ORM\OneToMany(mappedBy: 'client', targetEntity: Facture::class, cascade: ['remove'])]
     private Collection $factures;
 
     public function __construct()
@@ -97,7 +97,7 @@ class Client
     public function removeFacture(Facture $facture): static
     {
         if ($this->factures->removeElement($facture)) {
-            // set the owning side to null (unless already changed)
+            // Set the owning side to null (unless already changed)
             if ($facture->getClient() === $this) {
                 $facture->setClient(null);
             }

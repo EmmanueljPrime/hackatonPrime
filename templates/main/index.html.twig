@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block body %}
+    <div class="container text-center mt-5">
+        <h1 class="mb-4">Bienvenue sur votre tableau de bord</h1>
+        <p class="lead mb-5">Choisissez l'endroit où vous souhaitez aller :</p>
+
+        <div class="row justify-content-center">
+            <div class="col-md-3 mb-3">
+                <a href="{{ path('facture_index') }}" class="btn btn-primary btn-lg w-100">
+                    Voir les Factures
+                </a>
+            </div>
+            <div class="col-md-3 mb-3">
+                <a href="{{ path('client_index') }}" class="btn btn-success btn-lg w-100">
+                    Voir les Clients
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
