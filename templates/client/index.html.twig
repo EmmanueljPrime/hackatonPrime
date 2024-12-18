@@ -3,50 +3,57 @@
 {% block title %}Liste des Clients{% endblock %}
 
 {% block body %}
-    <h1>Liste des Clients</h1>
+    <div class="container mt-4">
+        <h1 class="mb-4">Liste des clients</h1>
 
-    <form method="get" action="{{ path('client_index') }}" class="mb-3">
-        <input type="text" name="q" class="form-control" placeholder="Rechercher..." value="{{ searchTerm }}">
-        <button type="submit" class="btn btn-primary mt-2">Rechercher</button>
-    </form>
+        <!-- Barre de recherche -->
+        <form method="get" action="{{ path('client_index') }}" class="mb-3">
+            <input type="text" name="q" class="form-control" placeholder="Rechercher..." value="{{ searchTerm }}">
+        </form>
 
-    <table class="table">
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Nom</th>
-            <th>Email</th>
-            <th>Entreprise</th>
-            <th>Nombre de Factures</th>
-            <th>Montant Total</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for client in clients %}
+        <!-- Bouton Créer un client -->
+        <div class="d-flex justify-content-end mb-3">
+            <a href="{{ path('client_new') }}" class="btn btn-primary">Créer un client</a>
+        </div>
+
+        <!-- Tableau des clients -->
+        <table class="table table-striped table-hover">
+            <thead class="table-light">
             <tr>
-                <td>{{ client.id }}</td>
-                <td>{{ client.fullname }}</td>
-                <td>{{ client.email }}</td>
-                <td>{{ client.company }}</td>
-                <td>{{ client.factures|length }}</td>
-                <td>{{ client.totalAmount|number_format(2, ',', ' ') }} €</td>
-                <td>
-                    <a href="{{ path('client_show', {'id': client.id}) }}" class="btn btn-info btn-sm">Voir</a>
-                    <a href="{{ path('client_edit', {'id': client.id}) }}" class="btn btn-primary btn-sm">Éditer</a>
-                    <form method="post" action="{{ path('client_delete', {'id': client.id}) }}" style="display:inline;" onsubmit="return confirm('Voulez-vous vraiment supprimer ce client ?');">
-                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ client.id) }}">
-                        <button class="btn btn-danger btn-sm">Supprimer</button>
-                    </form>
-                </td>
+                <th>Id.</th>
+                <th>Client</th>
+                <th>Email</th>
+                <th>Entreprise</th>
+                <th class="text-center">Factures</th>
+                <th class="text-end">Montant total</th>
+                <th class="text-center">Actions</th>
             </tr>
-        {% else %}
-            <tr>
-                <td colspan="7" class="text-center">Aucun client trouvé.</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('client_new') }}" class="btn btn-success">Créer un nouveau client</a>
+            </thead>
+            <tbody>
+            {% for client in clients %}
+                <tr>
+                    <td>{{ client.id }}</td>
+                    <td>
+                        <a href="#" class="text-decoration-none text-primary fw-bold">{{ client.fullname }}</a>
+                    </td>
+                    <td>{{ client.email }}</td>
+                    <td>{{ client.company }}</td>
+                    <td class="text-center">
+                        <span class="badge bg-primary">{{ client.factures|length }}</span>
+                    </td>
+                    <td class="text-end">{{ client.totalAmount|number_format(2, ',', ' ') }} €</td>
+                    <td class="text-center">
+                        <form method="post" action="{{ path('client_delete', {'id': client.id}) }}" onsubmit="return confirm('Voulez-vous vraiment supprimer ce client ?');" class="d-inline">
+                            <button class="btn btn-danger btn-sm">Supprimer</button>
+                        </form>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="7" class="text-center">Aucun client trouvé.</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}
