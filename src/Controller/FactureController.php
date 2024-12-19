@@ -20,8 +20,8 @@ final class FactureController extends AbstractController
     {
         $searchTerm = $request->query->get('q');
         $itemsPerPage = $request->query->getInt('items_per_page', 10);
-        $sortBy = $request->query->get('sort_by', 'date');
-        $sortOrder = $request->query->get('sort_order', 'asc');
+        $sortBy = $request->query->get('sort_by', 'sendingDate');
+        $sortOrder = $request->query->get('sort_order', 'desc');
 
 
         if ($searchTerm) {
