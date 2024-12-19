@@ -10,22 +10,30 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Knp\Component\Pager\PaginatorInterface;
 
 #[Route('/clients')]
 final class ClientController extends AbstractController
 {
     #[Route(name: 'client_index', methods: ['GET'])]
-    public function index(Request $request, ClientRepository $clientRepository): Response
+    public function index(Request $request, ClientRepository $clientRepository, PaginatorInterface $paginator): Response
     {
 
         // Récupérer le terme de recherche
         $searchTerm = $request->query->get('q');
+        $itemsPerPage = $request->query->getInt('items_per_page', 10);
 
         if ($searchTerm) {
             $clients = $clientRepository->findBySearchTerm($searchTerm);
         } else {
             $clients = $clientRepository->findAll();
         }
+
+        $pagination = $paginator->paginate(
+            $clients,
+            $request->query->getInt('page', 1),
+            $itemsPerPage
+        );
 
         // Calculer la somme des factures pour chaque client
         foreach ($clients as $client) {
@@ -37,8 +45,9 @@ final class ClientController extends AbstractController
         }
 
         return $this->render('client/index.html.twig', [
-            'clients' => $clients,
+            'clients' => $pagination,
             'searchTerm' => $searchTerm,
+            'itemsPerPage' => $itemsPerPage,
         ]);
     }
 
