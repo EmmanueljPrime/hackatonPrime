@@ -14,6 +14,7 @@
         <form method="get" action="{{ path('client_index') }}" class="mb-3 d-flex justify-content-start">
             <label for="items_per_page" class="me-2">Afficher :</label>
             <select name="items_per_page" id="items_per_page" class="form-control w-auto" onchange="this.form.submit()">
+                <option value="5" {% if itemsPerPage == 5 %}selected{% endif %}>5</option>
                 <option value="10" {% if itemsPerPage == 10 %}selected{% endif %}>10</option>
                 <option value="25" {% if itemsPerPage == 25 %}selected{% endif %}>25</option>
                 <option value="50" {% if itemsPerPage == 50 %}selected{% endif %}>50</option>
@@ -70,5 +71,6 @@
         <div class="pagination justify-content-center">
             {{ knp_pagination_render(clients) }}
         </div>
+
     </div>
 {% endblock %}
