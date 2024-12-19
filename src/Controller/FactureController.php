@@ -20,12 +20,27 @@ final class FactureController extends AbstractController
     {
         $searchTerm = $request->query->get('q');
         $itemsPerPage = $request->query->getInt('items_per_page', 10);
+        $sortBy = $request->query->get('sort_by', 'date');
+        $sortOrder = $request->query->get('sort_order', 'asc');
 
 
         if ($searchTerm) {
             $factures = $factureRepository->findBySearchTerm($searchTerm);
         } else {
             $factures = $factureRepository->findAll();
+        }
+
+        if ($sortBy == 'client') {
+            usort($factures, fn($a, $b) => $sortOrder == 'asc' ? strcmp($a->getClient()->getFullname(), $b->getClient()->getFullname()) : strcmp($b->getClient()->getFullname(), $a->getClient()->getFullname()));
+        } elseif ($sortBy == 'sendingDate') {
+            usort($factures, fn($a, $b) => $sortOrder == 'asc' ? $a->getSendingDate() <=> $b->getSendingDate() : $b->getSendingDate() <=> $a->getSendingDate());
+        } elseif ($sortBy == 'status') {
+            usort($factures, fn($a, $b) => $sortOrder == 'asc' ? strcmp($a->getStatus(), $b->getStatus()) : strcmp($b->getStatus(), $a->getStatus()));
+        } elseif ($sortBy == 'amount') {
+            usort($factures, fn($a, $b) => $sortOrder == 'asc' ? $a->getAmount() <=> $b->getAmount() : $b->getAmount() <=> $a->getAmount());
+        } else {
+            // Par défaut, trier par numéro (id)
+            usort($factures, fn($a, $b) => $sortOrder == 'asc' ? $a->getId() <=> $b->getId() : $b->getId() <=> $a->getId());
         }
 
         $pagination = $paginator->paginate(
@@ -38,6 +53,8 @@ final class FactureController extends AbstractController
             'factures' => $pagination,
             'searchTerm' => $searchTerm,
             'itemsPerPage' => $itemsPerPage,
+            'sortBy' => $sortBy,
+            'sortOrder' => $sortOrder,
         ]);
     }
 

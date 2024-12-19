@@ -28,11 +28,76 @@
         <table class="table table-striped table-hover">
             <thead class="table-light">
             <tr>
-                <th>Numéro</th>
-                <th>Client</th>
-                <th>Date d'envoi</th>
-                <th>Statut</th>
-                <th>Montant</th>
+                <th>
+                    <a href="{{ path('facture_index', {
+                        'sort_by': 'id',
+                        'sort_order': sortOrder == 'asc' ? 'desc' : 'asc'
+                    }) }}">Numéro
+                        {% if sortBy == 'id' %}
+                            {% if sortOrder == 'asc' %}
+                                <span>&#8593;</span> <!-- Flèche vers le haut (croissant) -->
+                            {% else %}
+                                <span>&#8595;</span> <!-- Flèche vers le bas (décroissant) -->
+                            {% endif %}
+                        {% endif %}
+                    </a>
+                </th>
+                <th>
+                    <a href="{{ path('facture_index', {
+                        'sort_by': 'client',
+                        'sort_order': sortOrder == 'asc' ? 'desc' : 'asc'
+                    }) }}">Client
+                        {% if sortBy == 'client' %}
+                            {% if sortOrder == 'asc' %}
+                                <span>&#8593;</span>
+                            {% else %}
+                                <span>&#8595;</span>
+                            {% endif %}
+                        {% endif %}
+                    </a>
+                </th>
+                <th>
+                    <a href="{{ path('facture_index', {
+                        'sort_by': 'sendingDate',
+                        'sort_order': sortOrder == 'asc' ? 'desc' : 'asc'
+                    }) }}">Date d'envoi
+                        {% if sortBy == 'sendingDate' %}
+                            {% if sortOrder == 'asc' %}
+                                <span>&#8593;</span>
+                            {% else %}
+                                <span>&#8595;</span>
+                            {% endif %}
+                        {% endif %}
+                    </a>
+                </th>
+                <th>
+                    <a href="{{ path('facture_index', {
+                        'sort_by': 'status',
+                        'sort_order': sortOrder == 'asc' ? 'desc' : 'asc'
+                    }) }}">Statut
+                        {% if sortBy == 'status' %}
+                            {% if sortOrder == 'asc' %}
+                                <span>&#8593;</span>
+                            {% else %}
+                                <span>&#8595;</span>
+                            {% endif %}
+                        {% endif %}
+                    </a>
+                </th>
+                <th>
+                    <a href="{{ path('facture_index', {
+                        'sort_by': 'amount',
+                        'sort_order': sortOrder == 'asc' ? 'desc' : 'asc'
+                    }) }}">Montant
+                        {% if sortBy == 'amount' %}
+                            {% if sortOrder == 'asc' %}
+                                <span>&#8593;</span>
+                            {% else %}
+                                <span>&#8595;</span>
+                            {% endif %}
+                        {% endif %}
+                    </a>
+                </th>
                 <th>Actions</th>
             </tr>
             </thead>
