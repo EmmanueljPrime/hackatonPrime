@@ -23,11 +23,26 @@ final class ClientController extends AbstractController
         $searchTerm = $request->query->get('q');
         $itemsPerPage = $request->query->getInt('items_per_page', 10);
 
+        $sortBy = $request->query->get('sort_by', 'fullname');
+        $sortOrder = $request->query->get('sort_order', 'asc');
+
         if ($searchTerm) {
             $clients = $clientRepository->findBySearchTerm($searchTerm);
         } else {
             $clients = $clientRepository->findAll();
         }
+        // Appliquer le tri en fonction du critère et de la direction
+        if ($sortBy == 'fullname') {
+            usort($clients, fn($a, $b) => $sortOrder == 'asc' ? strcmp($a->getFullname(), $b->getFullname()) : strcmp($b->getFullname(), $a->getFullname()));
+        } elseif ($sortBy == 'email') {
+            usort($clients, fn($a, $b) => $sortOrder == 'asc' ? strcmp($a->getEmail(), $b->getEmail()) : strcmp($b->getEmail(), $a->getEmail()));
+        } elseif ($sortBy == 'company') {
+            usort($clients, fn($a, $b) => $sortOrder == 'asc' ? strcmp($a->getCompany(), $b->getCompany()) : strcmp($b->getCompany(), $a->getCompany()));
+        } else {
+            // Par défaut, trier par ID
+            usort($clients, fn($a, $b) => $sortOrder == 'asc' ? $a->getId() <=> $b->getId() : $b->getId() <=> $a->getId());
+        }
+
 
         $pagination = $paginator->paginate(
             $clients,
@@ -48,6 +63,8 @@ final class ClientController extends AbstractController
             'clients' => $pagination,
             'searchTerm' => $searchTerm,
             'itemsPerPage' => $itemsPerPage,
+            'sortBy' => $sortBy,
+            'sortOrder' => $sortOrder,
         ]);
     }
 

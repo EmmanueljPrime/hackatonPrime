@@ -32,10 +32,66 @@
         <table class="table table-striped table-hover">
             <thead class="table-light">
             <tr>
-                <th>Id.</th>
-                <th>Client</th>
-                <th>Email</th>
-                <th>Entreprise</th>
+                <th>
+                    <a href="{{ path('client_index', {
+                        'sort_by': 'id',
+                        'sort_order': sortOrder == 'asc' ? 'desc' : 'asc'
+                    }) }}">
+                        Id.
+                        {% if sortBy == 'id' %}
+                            {% if sortOrder == 'asc' %}
+                                <span>&#8593;</span> <!-- Flèche vers le haut -->
+                            {% else %}
+                                <span>&#8595;</span> <!-- Flèche vers le bas -->
+                            {% endif %}
+                        {% endif %}
+                    </a>
+                </th>
+                <th>
+                    <a href="{{ path('client_index', {
+                        'sort_by': 'fullname',
+                        'sort_order': sortOrder == 'asc' ? 'desc' : 'asc'
+                    }) }}">
+                        Client
+                        {% if sortBy == 'fullname' %}
+                            {% if sortOrder == 'asc' %}
+                                <span>&#8593;</span>
+                            {% else %}
+                                <span>&#8595;</span>
+                            {% endif %}
+                        {% endif %}
+                    </a>
+                </th>
+                <th>
+                    <a href="{{ path('client_index', {
+                        'sort_by': 'email',
+                        'sort_order': sortOrder == 'asc' ? 'desc' : 'asc'
+                    }) }}">
+                        Email
+                        {% if sortBy == 'email' %}
+                            {% if sortOrder == 'asc' %}
+                                <span>&#8593;</span>
+                            {% else %}
+                                <span>&#8595;</span>
+                            {% endif %}
+                        {% endif %}
+                    </a>
+                </th>
+                <th>
+                    <a href="{{ path('client_index', {
+                        'sort_by': 'company',
+                        'sort_order': sortOrder == 'asc' ? 'desc' : 'asc'
+                    }) }}">
+                        Entreprise
+                        {% if sortBy == 'company' %}
+                            {% if sortOrder == 'asc' %}
+                                <span>&#8593;</span>
+                            {% else %}
+                                <span>&#8595;</span>
+                            {% endif %}
+                        {% endif %}
+                    </a>
+                </th>
                 <th class="text-center">Factures</th>
                 <th class="text-end">Montant total</th>
                 <th class="text-center">Actions</th>
